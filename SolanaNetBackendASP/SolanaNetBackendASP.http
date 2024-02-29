@@ -1,0 +1,6 @@
+@SolanaNetBackendASP_HostAddress = http://localhost:5191
+
+GET {{SolanaNetBackendASP_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
