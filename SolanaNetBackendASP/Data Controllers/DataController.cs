@@ -15,6 +15,8 @@ public class DataController
     {
         _logger = logger;
         _userDataController = new UserDataController(logger);
+
+        LoadData(GetCurrentSavePath());
     }
 
     #region IO
