@@ -5,10 +5,10 @@ using SolanaNetBackendASP.Data_Controllers;
 public class SolanaController : ControllerBase
 {
     private readonly ILogger<SolanaController> _logger;
-    private readonly SolanaMainDataController _solanaMain;
+    private readonly SolanaRpc _solanaMain;
     private readonly UserDataController _userController;
 
-    public SolanaController(ILogger<SolanaController> logger, SolanaMainDataController solanaMain, UserDataController userController)
+    public SolanaController(ILogger<SolanaController> logger, SolanaRpc solanaMain, UserDataController userController)
     {
         _logger = logger;
         _solanaMain = solanaMain;

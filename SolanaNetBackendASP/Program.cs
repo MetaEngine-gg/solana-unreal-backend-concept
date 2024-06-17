@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<SolanaMainDataController>();
+builder.Services.AddSingleton<SolanaRpc>();
 builder.Services.AddSingleton<UserDataController>();
 
 var app = builder.Build();

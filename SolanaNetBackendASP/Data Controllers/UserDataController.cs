@@ -1,6 +1,5 @@
-﻿using Solnet.Rpc;
-using Solnet.Wallet;
-using Solnet.Wallet.Bip39;
+﻿using SolanaNetBackendASP.Data_Controllers.Examples;
+using Solnet.Rpc;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
@@ -30,17 +29,11 @@ public class UserDataController
         Model = new UserModel
         {
             Name = $"User #{new Random().Next()}",
-            Wallet = CreateWallet()
+            Wallet = SolnetWallet.CreateWallet()
         };
 
-        _logger.LogInformation($"Created User: {Model.Name}");
-    }
-
-    private Wallet CreateWallet()
-    {
-        var wallet = new Wallet(WordCount.TwentyFour, WordList.English);
-        _logger.LogInformation($"Wallet: {wallet.Account.PublicKey}");
-        return wallet;
+        _logger.LogInformation("Wallet: {AccountPublicKey}", Model.Wallet.Account.PublicKey);
+        _logger.LogInformation("Created User: {ModelName}", Model.Name);
     }
 
     #endregion
