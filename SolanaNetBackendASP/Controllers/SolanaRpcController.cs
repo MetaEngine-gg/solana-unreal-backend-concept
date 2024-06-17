@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
 
+namespace SolanaNetBackendASP.Controllers;
+
 [ApiController, Route("api/solana-rpc")]
 public class SolanaRpcController : ControllerBase
 {

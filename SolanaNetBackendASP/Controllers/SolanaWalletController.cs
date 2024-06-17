@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
 
+namespace SolanaNetBackendASP.Controllers;
+
 [ApiController, Route("api/solana-wallet")]
 public class SolanaWalletController : ControllerBase
 {
@@ -11,12 +13,11 @@ public class SolanaWalletController : ControllerBase
         _userController = userController;
     }
     
-    [HttpGet, Route("data/{address}")]
+    [HttpGet, Route("{address}/private-key")]
     public ActionResult<string> GetPrivateKey(string address)
     {
-        throw new NotImplementedException();
-        // var request = _userController.GetPrivateKey(address);
-        // return request.WasSuccessful ? Ok(request.Result.Value) : StatusCode(500, $"Error retrieving private key!");
+        var result = _userController.GetPrivateKey(address);
+        return string.IsNullOrEmpty(result) ? Ok(result) : StatusCode(404, $"No private key found for address {address}!");
     }
 
     [HttpGet, Route("balance/{address}")]
