@@ -1,7 +1,7 @@
 ﻿using Solnet.Wallet;
 using Solnet.Wallet.Bip39;
 
-namespace SolanaNetBackendASP.Data_Controllers.Examples;
+namespace SolanaNetBackendASP.Data_Controllers.Components;
 
 public static class SolnetWallet
 {

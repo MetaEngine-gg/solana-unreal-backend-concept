@@ -1,4 +1,4 @@
-﻿using SolanaNetBackendASP.Data_Controllers.Examples;
+﻿using SolanaNetBackendASP.Data_Controllers.Components;
 using Solnet.Rpc;
 
 namespace SolanaNetBackendASP.Data_Controllers;
