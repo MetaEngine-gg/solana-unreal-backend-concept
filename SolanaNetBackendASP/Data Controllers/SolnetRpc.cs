@@ -2,14 +2,14 @@
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
-public class SolanaRpc : IDisposable
+public class SolnetRpc : IDisposable
 {
-    private readonly ILogger<SolanaRpc> _logger;
+    private readonly ILogger<SolnetRpc> _logger;
     private readonly IRpcClient _rpcClient;
     private readonly IStreamingRpcClient _streamingRpcClient;
     private readonly UserDataController _userController;
 
-    public SolanaRpc(ILogger<SolanaRpc> logger, UserDataController userController) 
+    public SolnetRpc(ILogger<SolnetRpc> logger, UserDataController userController) 
     {
         _logger = logger;
         _userController = userController;

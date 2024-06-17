@@ -5,13 +5,13 @@ using SolanaNetBackendASP.Data_Controllers;
 public class SolanaController : ControllerBase
 {
     private readonly ILogger<SolanaController> _logger;
-    private readonly SolanaRpc _solanaMain;
+    private readonly SolnetRpc _solnetMain;
     private readonly UserDataController _userController;
 
-    public SolanaController(ILogger<SolanaController> logger, SolanaRpc solanaMain, UserDataController userController)
+    public SolanaController(ILogger<SolanaController> logger, SolnetRpc solnetMain, UserDataController userController)
     {
         _logger = logger;
-        _solanaMain = solanaMain;
+        _solnetMain = solnetMain;
         _userController = userController;
     }
 
@@ -32,7 +32,7 @@ public class SolanaController : ControllerBase
     [HttpGet, Route("airdrop/{address}")]
     public ActionResult<ulong> RequestAirDrop(string address)
     {
-        var isSuccess = _solanaMain.RequestAirDrop(address, 100000);
+        var isSuccess = _solnetMain.RequestAirDrop(address, 100000);
         if (isSuccess)
         {
             return Ok(isSuccess);
