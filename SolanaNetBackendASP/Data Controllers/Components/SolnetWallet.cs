@@ -7,10 +7,7 @@ public static class SolnetWallet
 {
     public static Wallet CreateWallet()
     {
-        // create new mnemonic
-        // To initialize a wallet and have access to the same keys generated in sollet (the default)
         var wordList = WordList.English;
-        
         var mnemonic = GenerateMnemonic(wordList, WordCount.TwentyFour);
         var wallet = new Wallet(mnemonic, wordList);
 
