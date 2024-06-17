@@ -4,9 +4,9 @@ using SolanaNetBackendASP.Data_Controllers;
 [ApiController, Route("api/solana-rpc")]
 public class SolanaRpcController : ControllerBase
 {
-    private readonly SolnetRpc _solnetMain;
+    private readonly SolnetRpcDataController _solnetMain;
 
-    public SolanaRpcController(SolnetRpc solnetMain)
+    public SolanaRpcController(SolnetRpcDataController solnetMain)
     {
         _solnetMain = solnetMain;
     }

@@ -1,17 +1,18 @@
 ﻿using SolanaNetBackendASP.Data_Controllers.Components;
+using SolanaNetBackendASP.Models;
 using Solnet.Rpc;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
 public class UserDataController
 {
-    private readonly ILogger<UserDataController> _logger;
+    private readonly ILogger<DataController> _logger;
     private readonly IRpcClient _rpcClient;
     private readonly IStreamingRpcClient _streamingRpcClient;
 
-    public UserModel Model { get; private set; }
+    public UsersContainer Model { get; private set; }
 
-    public UserDataController(ILogger<UserDataController> logger)
+    public UserDataController(ILogger<DataController> logger)
     {
         _logger = logger;
 
@@ -22,18 +23,19 @@ public class UserDataController
         CreateUser();
     }
 
-    #region Init
+    #region User Creation
 
     public void CreateUser()
     {
-        Model = new UserModel
+        var user = new UserModel
         {
             Name = $"User #{new Random().Next()}",
             Wallet = SolnetWallet.CreateWallet()
         };
-
-        _logger.LogInformation("Wallet: {AccountPublicKey}", Model.Wallet.Account.PublicKey);
-        _logger.LogInformation("Created User: {ModelName}", Model.Name);
+        Model.Users.Add(user.Wallet.Account.PublicKey, user);
+        
+        _logger.LogInformation("Wallet: {AccountPublicKey}", user.Wallet.Account.PublicKey);
+        _logger.LogInformation("Created User: {ModelName}", user.Name);
     }
 
     #endregion
@@ -42,5 +44,10 @@ public class UserDataController
     {
         var result = await _rpcClient.GetBalanceAsync(address);
         return result;
+    }
+
+    public string GetPrivateKey(string address)
+    {
+        return Model.Users.TryGetValue(address, out var user) ? user.Wallet.Account.PrivateKey : string.Empty;
     }
 }

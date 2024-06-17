@@ -10,6 +10,14 @@ public class SolanaWalletController : ControllerBase
     {
         _userController = userController;
     }
+    
+    [HttpGet, Route("data/{address}")]
+    public ActionResult<string> GetPrivateKey(string address)
+    {
+        throw new NotImplementedException();
+        // var request = _userController.GetPrivateKey(address);
+        // return request.WasSuccessful ? Ok(request.Result.Value) : StatusCode(500, $"Error retrieving private key!");
+    }
 
     [HttpGet, Route("balance/{address}")]
     public async Task<ActionResult<ulong>> GetBalance(string address)
