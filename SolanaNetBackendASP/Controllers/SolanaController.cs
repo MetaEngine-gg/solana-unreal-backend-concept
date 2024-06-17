@@ -4,13 +4,11 @@ using SolanaNetBackendASP.Data_Controllers;
 [ApiController, Route("api/solana")]
 public class SolanaController : ControllerBase
 {
-    private readonly ILogger<SolanaController> _logger;
     private readonly SolnetRpc _solnetMain;
     private readonly UserDataController _userController;
 
-    public SolanaController(ILogger<SolanaController> logger, SolnetRpc solnetMain, UserDataController userController)
+    public SolanaController(SolnetRpc solnetMain, UserDataController userController)
     {
-        _logger = logger;
         _solnetMain = solnetMain;
         _userController = userController;
     }
