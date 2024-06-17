@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
 
-[ApiController, Route("api/[controller]")]
+[ApiController, Route("api/solana")]
 public class SolanaController : ControllerBase
 {
     private readonly ILogger<SolanaController> _logger;
