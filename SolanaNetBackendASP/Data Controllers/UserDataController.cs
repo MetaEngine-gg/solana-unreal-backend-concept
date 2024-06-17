@@ -1,18 +1,20 @@
 ﻿using SolanaNetBackendASP.Data_Controllers.Components;
 using SolanaNetBackendASP.Models;
 using Solnet.Rpc;
+using Solnet.Rpc.Core.Http;
+using Solnet.Rpc.Messages;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
-public class UserDataController
+public class UserDataController : IDisposable
 {
-    private readonly ILogger<DataController> _logger;
+    private readonly ILogger _logger;
     private readonly IRpcClient _rpcClient;
     private readonly IStreamingRpcClient _streamingRpcClient;
 
-    public UsersContainer Model { get; private set; }
+    public UsersContainer Model { get; private set; } = new();
 
-    public UserDataController(ILogger<DataController> logger)
+    public UserDataController(ILogger logger)
     {
         _logger = logger;
 
@@ -21,6 +23,11 @@ public class UserDataController
         _streamingRpcClient.ConnectAsync().Wait();
 
         CreateUser();
+    }
+    
+    public void Dispose()
+    {
+        _streamingRpcClient.Dispose();
     }
 
     #region User Creation
@@ -40,7 +47,9 @@ public class UserDataController
 
     #endregion
 
-    public async Task<Solnet.Rpc.Core.Http.RequestResult<Solnet.Rpc.Messages.ResponseValue<ulong>>> GetBalance(string address)
+    #region Wallet Operations
+
+    public async Task<RequestResult<ResponseValue<ulong>>> GetBalance(string address)
     {
         var result = await _rpcClient.GetBalanceAsync(address);
         return result;
@@ -48,6 +57,27 @@ public class UserDataController
 
     public string GetPrivateKey(string address)
     {
-        return Model.Users.TryGetValue(address, out var user) ? user.Wallet.Account.PrivateKey : string.Empty;
+        var result = Model.Users.TryGetValue(address, out var user);
+        if (!result)
+        {
+            _logger.LogError("User not found for address: {Address}", address);
+            return string.Empty;
+        }
+
+        return user.Wallet.Account.PrivateKey;
     }
+    
+    public string GetPublicKey(string address)
+    {
+        var result = Model.Users.TryGetValue(address, out var user);
+        if (!result)
+        {
+            _logger.LogError("User not found for address: {Address}", address);
+            return string.Empty;
+        }
+
+        return user.Wallet.Account.PublicKey;
+    }
+
+    #endregion
 }

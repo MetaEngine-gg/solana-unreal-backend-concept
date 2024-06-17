@@ -13,11 +13,6 @@ public static class SolnetWallet
 
         return wallet;
     }
-
-    public static string GetPrivateKey(Wallet wallet)
-    {
-        return wallet.Account.PrivateKey;
-    }
     
     private static string GenerateMnemonic(WordList wordList, WordCount wordCount)
     {
