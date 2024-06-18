@@ -31,17 +31,17 @@ public class SolanaRpcController : ControllerBase
     {
         if (string.IsNullOrEmpty(payload.FromAddress))
         {
-            return BadRequest("From Address is empty");
+            return StatusCode(400, $"From Address is empty");
         }
         
         if (string.IsNullOrEmpty(payload.ToAddress))
         {
-            return BadRequest("To Address is empty");
+            return StatusCode(400, $"To Address is empty");
         }
         
         if (payload.FromAddress == payload.ToAddress)
         {
-            return BadRequest("From and To addresses are the same");
+            return StatusCode(400, $"From and To Address cannot be the same");
         }
         
         var isSuccess = await _solnetMain.SendTransaction(payload.FromAddress, payload.ToAddress, payload.Amount);
