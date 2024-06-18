@@ -9,12 +9,12 @@ public class SolnetRpcDataController : IDisposable
     private readonly ILogger<SolnetRpcDataController> _logger;
     private readonly IRpcClient _rpcClient;
     private readonly IStreamingRpcClient _streamingRpcClient;
-    private readonly UserDataController _userController;
+    private readonly DataController _dataController;
 
-    public SolnetRpcDataController(ILogger<SolnetRpcDataController> logger, UserDataController userController) 
+    public SolnetRpcDataController(ILogger<SolnetRpcDataController> logger, DataController dataController) 
     {
         _logger = logger;
-        _userController = userController;
+        _dataController = dataController;
 
         _rpcClient = ClientFactory.GetClient(Cluster.TestNet);
         _streamingRpcClient = ClientFactory.GetStreamingClient(Cluster.TestNet);
@@ -30,7 +30,7 @@ public class SolnetRpcDataController : IDisposable
 
     private void SubscribeToBalanceChanges(string walletAddress)
     {
-        var wallet = _userController.Model.Users.TryGetValue(walletAddress, out var user) ? user.Wallet : null;
+        var wallet = _dataController.UserDataController.Model.Users.TryGetValue(walletAddress, out var user) ? user.Wallet : null;
         if (wallet == null)
         {
             _logger.LogError("Wallet not found for address: {WalletAddress}", walletAddress);
@@ -54,8 +54,8 @@ public class SolnetRpcDataController : IDisposable
     
     public async Task<bool> SendTransaction(string fromAddress, string toAddress, ulong amount)
     {
-        var fromWallet = _userController.Model.Users.TryGetValue(fromAddress, out var fromUser) ? fromUser.Wallet : null;
-        var toWallet = _userController.Model.Users.TryGetValue(toAddress, out var toUser) ? toUser.Wallet : null;
+        var fromWallet = _dataController.UserDataController.Model.Users.TryGetValue(fromAddress, out var fromUser) ? fromUser.Wallet : null;
+        var toWallet = _dataController.UserDataController.Model.Users.TryGetValue(toAddress, out var toUser) ? toUser.Wallet : null;
 
         if (fromWallet == null)
         {

@@ -11,6 +11,8 @@ public class DataController
     private readonly ILogger<DataController> _logger;
     private readonly UserDataController _userDataController;
     
+    public UserDataController UserDataController => _userDataController;
+    
     public DataController(ILogger<DataController> logger)
     {
         _logger = logger;
