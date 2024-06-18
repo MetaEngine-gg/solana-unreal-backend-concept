@@ -26,7 +26,7 @@ public class SolanaRpcController : ControllerBase
     }
     
     [HttpGet, Route("send-transaction/{fromAddress}/{toAddress}/{amount}")]
-    public async Task<ActionResult<bool>> RequestAirDrop(string fromAddress, string toAddress, ulong amount)
+    public async Task<ActionResult<bool>> SendTransaction(string fromAddress, string toAddress, ulong amount)
     {
         if (string.IsNullOrEmpty(fromAddress))
         {
