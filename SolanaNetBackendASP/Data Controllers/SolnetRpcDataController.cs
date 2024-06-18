@@ -1,9 +1,6 @@
-﻿using System.Numerics;
-using Solnet.Programs;
+﻿using Solnet.Programs;
 using Solnet.Rpc;
 using Solnet.Rpc.Builders;
-using Solnet.Rpc.Core.Http;
-using Solnet.Rpc.Messages;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
