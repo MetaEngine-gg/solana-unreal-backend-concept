@@ -1,4 +1,5 @@
-﻿using Solnet.Programs;
+﻿using System.Numerics;
+using Solnet.Programs;
 using Solnet.Rpc;
 using Solnet.Rpc.Builders;
 using Solnet.Rpc.Core.Http;
@@ -54,7 +55,7 @@ public class SolnetRpcDataController : IDisposable
         return transactionHash.WasSuccessful;
     }
     
-    public async Task<bool> SendTransaction(string fromAddress, string toAddress)
+    public async Task<bool> SendTransaction(string fromAddress, string toAddress, ulong amount)
     {
         var fromWallet = _userController.Model.Users.TryGetValue(fromAddress, out var fromUser) ? fromUser.Wallet : null;
         var toWallet = _userController.Model.Users.TryGetValue(toAddress, out var toUser) ? toUser.Wallet : null;
@@ -79,7 +80,7 @@ public class SolnetRpcDataController : IDisposable
             SetRecentBlockHash(blockHash.Result.Value.Blockhash).
             SetFeePayer(fromWallet.Account.PublicKey).
             AddInstruction(MemoProgram.NewMemo(fromWallet.Account.PublicKey, "Hello from Sol.Net :)")).
-            AddInstruction(SystemProgram.Transfer(fromWallet.Account.PublicKey, toWallet.Account.PublicKey, 100000)).
+            AddInstruction(SystemProgram.Transfer(fromWallet.Account.PublicKey, toWallet.Account.PublicKey, amount)).
             Build(fromWallet.Account);
 
         var transaction = await _rpcClient.SendTransactionAsync(tx);

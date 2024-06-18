@@ -1,3 +1,4 @@
+using System.Numerics;
 using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
 
@@ -25,8 +26,8 @@ public class SolanaRpcController : ControllerBase
         return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Air Drop has failed");
     }
     
-    [HttpGet, Route("send-transaction/{fromAddress}/{toAddress}")]
-    public async Task<ActionResult<bool>> RequestAirDrop(string fromAddress, string toAddress)
+    [HttpGet, Route("send-transaction/{fromAddress}/{toAddress}/{amount}")]
+    public async Task<ActionResult<bool>> RequestAirDrop(string fromAddress, string toAddress, ulong amount)
     {
         if (string.IsNullOrEmpty(fromAddress))
         {
@@ -43,7 +44,7 @@ public class SolanaRpcController : ControllerBase
             return BadRequest("From and To addresses are the same");
         }
         
-        var isSuccess = await _solnetMain.SendTransaction(fromAddress, toAddress);
+        var isSuccess = await _solnetMain.SendTransaction(fromAddress, toAddress, amount);
         return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Transaction has failed");
     }
 }
