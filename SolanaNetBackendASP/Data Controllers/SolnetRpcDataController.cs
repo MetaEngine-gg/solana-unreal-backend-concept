@@ -1,6 +1,8 @@
 ﻿using Solnet.Programs;
 using Solnet.Rpc;
 using Solnet.Rpc.Builders;
+using Solnet.Rpc.Models;
+using Solnet.Wallet;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
@@ -20,7 +22,7 @@ public class SolnetRpcDataController : IDisposable
         _streamingRpcClient = ClientFactory.GetStreamingClient(Cluster.TestNet);
         _streamingRpcClient.ConnectAsync().Wait();
 
-        SubscribeToBalanceChanges("08x31234124231432144"); // example wallet address, just placeholder
+        SubscribeToBalanceChanges("5omQJtDUHA3gMFdHEQg1zZSvcBUVzey5WaKWYRmqF1Vj"); // example wallet address, just placeholder
     }
 
     public void Dispose()
@@ -50,6 +52,15 @@ public class SolnetRpcDataController : IDisposable
         _logger.LogInformation(message);
 
         return transactionHash.WasSuccessful;
+    }
+
+    public async Task<(bool, AccountInfo)> GetAccountInfo(string address)
+    {
+        // Get a certain account's info
+        var publicKey = "5omQJtDUHA3gMFdHEQg1zZSvcBUVzey5WaKWYRmqF1Vj"; // example wallet address, just placeholder
+        var request = await _rpcClient.GetAccountInfoAsync(publicKey);
+        
+        return (request.WasSuccessful, request.Result.Value);
     }
     
     public async Task<bool> SendTransaction(string fromAddress, string toAddress, ulong amount)
