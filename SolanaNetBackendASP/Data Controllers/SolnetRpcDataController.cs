@@ -1,4 +1,8 @@
-﻿using Solnet.Rpc;
+﻿using Solnet.Programs;
+using Solnet.Rpc;
+using Solnet.Rpc.Builders;
+using Solnet.Rpc.Core.Http;
+using Solnet.Rpc.Messages;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
@@ -48,5 +52,37 @@ public class SolnetRpcDataController : IDisposable
         _logger.LogInformation(message);
 
         return transactionHash.WasSuccessful;
+    }
+    
+    public async Task<bool> SendTransaction(string fromAddress, string toAddress)
+    {
+        var fromWallet = _userController.Model.Users.TryGetValue(fromAddress, out var fromUser) ? fromUser.Wallet : null;
+        var toWallet = _userController.Model.Users.TryGetValue(toAddress, out var toUser) ? toUser.Wallet : null;
+
+        if (fromWallet == null)
+        {
+            _logger.LogError("Wallet not found for address: {FromAddress}", fromAddress);
+            return false;
+        }
+        
+        if (toWallet == null)
+        {
+            _logger.LogError("Wallet not found for address: {ToAddress}", toAddress);
+            return false;
+        }
+        
+        // Get a recent block hash to include in the transaction
+        var blockHash = await _rpcClient.GetLatestBlockHashAsync();
+
+        // Initialize a transaction builder and chain as many instructions as you want before building the message
+        var tx = new TransactionBuilder().
+            SetRecentBlockHash(blockHash.Result.Value.Blockhash).
+            SetFeePayer(fromWallet.Account.PublicKey).
+            AddInstruction(MemoProgram.NewMemo(fromWallet.Account.PublicKey, "Hello from Sol.Net :)")).
+            AddInstruction(SystemProgram.Transfer(fromWallet.Account.PublicKey, toWallet.Account.PublicKey, 100000)).
+            Build(fromWallet.Account);
+
+        var transaction = await _rpcClient.SendTransactionAsync(tx);
+        return transaction.WasSuccessful;
     }
 }

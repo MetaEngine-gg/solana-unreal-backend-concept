@@ -16,7 +16,34 @@ public class SolanaRpcController : ControllerBase
     [HttpGet, Route("airdrop/{address}")]
     public ActionResult<ulong> RequestAirDrop(string address)
     {
+        if (string.IsNullOrEmpty(address))
+        {
+            return BadRequest("Address is empty");
+        }
+        
         var isSuccess = _solnetMain.RequestAirDrop(address, 100000);
         return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Air Drop has failed");
+    }
+    
+    [HttpGet, Route("send-transaction/{fromAddress}/{toAddress}")]
+    public async Task<ActionResult<bool>> RequestAirDrop(string fromAddress, string toAddress)
+    {
+        if (string.IsNullOrEmpty(fromAddress))
+        {
+            return BadRequest("From Address is empty");
+        }
+        
+        if (string.IsNullOrEmpty(toAddress))
+        {
+            return BadRequest("To Address is empty");
+        }
+        
+        if (fromAddress == toAddress)
+        {
+            return BadRequest("From and To addresses are the same");
+        }
+        
+        var isSuccess = await _solnetMain.SendTransaction(fromAddress, toAddress);
+        return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Transaction has failed");
     }
 }
