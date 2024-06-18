@@ -12,7 +12,7 @@ public class UserDataController : IDisposable
     private readonly IRpcClient _rpcClient;
     private readonly IStreamingRpcClient _streamingRpcClient;
 
-    public UsersContainer Model { get; private set; } = new();
+    public UsersContainer Model { get; set; } = new();
 
     public UserDataController(ILogger logger)
     {
@@ -21,8 +21,6 @@ public class UserDataController : IDisposable
         _rpcClient = ClientFactory.GetClient(Cluster.TestNet);
         _streamingRpcClient = ClientFactory.GetStreamingClient(Cluster.TestNet);
         _streamingRpcClient.ConnectAsync().Wait();
-
-        CreateUser();
     }
     
     public void Dispose()
