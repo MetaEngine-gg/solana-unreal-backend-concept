@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
+using SolanaNetBackendASP.Models;
 
 namespace SolanaNetBackendASP.Controllers;
 
@@ -25,25 +26,25 @@ public class SolanaRpcController : ControllerBase
         return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Air Drop has failed");
     }
     
-    [HttpGet, Route("send-transaction/{fromAddress}/{toAddress}/{amount}")]
-    public async Task<ActionResult<bool>> SendTransaction(string fromAddress, string toAddress, ulong amount)
+    [HttpPost, Route("send-transaction")]
+    public async Task<ActionResult<bool>> SendTransaction([FromBody] SendTransactionPayload payload)
     {
-        if (string.IsNullOrEmpty(fromAddress))
+        if (string.IsNullOrEmpty(payload.FromAddress))
         {
             return BadRequest("From Address is empty");
         }
         
-        if (string.IsNullOrEmpty(toAddress))
+        if (string.IsNullOrEmpty(payload.ToAddress))
         {
             return BadRequest("To Address is empty");
         }
         
-        if (fromAddress == toAddress)
+        if (payload.FromAddress == payload.ToAddress)
         {
             return BadRequest("From and To addresses are the same");
         }
         
-        var isSuccess = await _solnetMain.SendTransaction(fromAddress, toAddress, amount);
+        var isSuccess = await _solnetMain.SendTransaction(payload.FromAddress, payload.ToAddress, payload.Amount);
         return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Transaction has failed");
     }
 }

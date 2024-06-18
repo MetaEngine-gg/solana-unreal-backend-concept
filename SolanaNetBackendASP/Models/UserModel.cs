@@ -3,7 +3,7 @@
 namespace SolanaNetBackendASP.Models;
 
 [Serializable]
-public struct UserModel
+public class UserModel
 {
     public string Name { get; set; }
     public Wallet Wallet { get; init; }

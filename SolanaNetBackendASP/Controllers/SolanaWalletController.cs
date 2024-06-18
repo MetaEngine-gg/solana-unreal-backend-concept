@@ -13,7 +13,14 @@ public class SolanaWalletController : ControllerBase
         _userController = userController;
     }
     
-    [HttpGet, Route("{address}/private-key")]
+    [HttpGet, Route("public-key/{username}")]
+    public ActionResult<string> GetPublicKey(string username)
+    {
+        var result = _userController.GetPublicKey(username);
+        return string.IsNullOrEmpty(result) ? Ok(result) : StatusCode(404, $"No public key found for username [{username}]!");
+    }
+    
+    [HttpGet, Route("private-key/{address}")]
     public ActionResult<string> GetPrivateKey(string address)
     {
         var result = _userController.GetPrivateKey(address);

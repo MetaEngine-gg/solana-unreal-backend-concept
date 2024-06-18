@@ -67,14 +67,14 @@ public class UserDataController : IDisposable
     
     public string GetPublicKey(string address)
     {
-        var result = Model.Users.TryGetValue(address, out var user);
-        if (!result)
+        var userModel = Model.Users.FirstOrDefault(pair => pair.Value.Name == address).Value;
+        if (userModel == null)
         {
             _logger.LogError("User not found for address: {Address}", address);
             return string.Empty;
         }
 
-        return user.Wallet.Account.PublicKey;
+        return userModel.Wallet.Account.PublicKey;
     }
 
     #endregion
