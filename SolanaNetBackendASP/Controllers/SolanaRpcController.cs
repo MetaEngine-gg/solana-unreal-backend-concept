@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
 using SolanaNetBackendASP.Models;
+using SolanaNetBackendASP.Models.Rpc;
 using Solnet.Rpc.Models;
 
 namespace SolanaNetBackendASP.Controllers;

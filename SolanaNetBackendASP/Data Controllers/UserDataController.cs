@@ -1,5 +1,6 @@
 ﻿using SolanaNetBackendASP.Data_Controllers.Components;
 using SolanaNetBackendASP.Models;
+using SolanaNetBackendASP.Models.User;
 using Solnet.Rpc;
 using Solnet.Rpc.Core.Http;
 using Solnet.Rpc.Messages;

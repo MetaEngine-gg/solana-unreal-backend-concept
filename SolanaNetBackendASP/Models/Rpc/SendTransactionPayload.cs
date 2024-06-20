@@ -1,4 +1,4 @@
-namespace SolanaNetBackendASP.Models;
+namespace SolanaNetBackendASP.Models.Rpc;
 
 [Serializable]
 public struct SendTransactionPayload

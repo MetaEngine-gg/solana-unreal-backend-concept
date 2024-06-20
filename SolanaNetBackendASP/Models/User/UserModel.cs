@@ -1,6 +1,6 @@
 ﻿using Solnet.Wallet;
 
-namespace SolanaNetBackendASP.Models;
+namespace SolanaNetBackendASP.Models.User;
 
 [Serializable]
 public class UserModel
