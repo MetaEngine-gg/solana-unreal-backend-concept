@@ -2,7 +2,6 @@
 using Solnet.Rpc;
 using Solnet.Rpc.Builders;
 using Solnet.Rpc.Models;
-using Solnet.Wallet;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 

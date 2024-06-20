@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using SolanaNetBackendASP.Models;
 using SolanaNetBackendASP.Models.User;
 
 namespace SolanaNetBackendASP.Data_Controllers;
