@@ -13,11 +13,11 @@ public class DataController
     
     public UserDataController UserDataController => _userDataController;
     
-    public DataController(ILogger<DataController> logger)
+    public DataController(ILogger<DataController> logger, UserDataController userDataController)
     {
         _logger = logger;
-        _userDataController = new UserDataController(logger);
-
+        _userDataController = userDataController;
+        
         _userDataController.Model = LoadData(GetCurrentSavePath());
     }
 

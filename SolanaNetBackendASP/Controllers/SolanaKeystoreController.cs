@@ -13,26 +13,43 @@ public class SolanaKeystoreController : ControllerBase
     {
         _solnetKeystoreController = keystoreController;
     }
-    
+
     [HttpPost, Route("encrypt-account-data")]
-    public ActionResult<bool> EncryptAccountData([FromBody] EncryptAccountPayload payload)
+    public ActionResult<string> EncryptAccountData([FromBody] EncryptAccountPayload payload)
     {
         if (string.IsNullOrEmpty(payload.Password))
         {
             return StatusCode(400, $"Password is empty");
         }
-        
+
         if (string.IsNullOrEmpty(payload.AccountData))
         {
             return StatusCode(400, $"Account Data is empty");
         }
-        
+
         if (string.IsNullOrEmpty(payload.PublicKey))
         {
             return StatusCode(400, $"Public Key is empty");
         }
-        
-        var isSuccess = _solnetKeystoreController.EncryptAccountData(payload);
-        return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Encryption failed");
+
+        var encryptedData = _solnetKeystoreController.EncryptAccountData(payload);
+        return !string.IsNullOrEmpty(encryptedData) ? Ok(encryptedData) : StatusCode(500, $"Encryption failed");
+    }
+
+    [HttpPost, Route("decrypt-account-data")]
+    public ActionResult<string> DecryptAccountData([FromBody] DecryptAccountPayload payload)
+    {
+        if (string.IsNullOrEmpty(payload.Password))
+        {
+            return StatusCode(400, $"Password is empty");
+        }
+
+        if (string.IsNullOrEmpty(payload.EncryptedAccountData))
+        {
+            return StatusCode(400, $"Encrypted Account Data is empty");
+        }
+
+        var decryptedData = _solnetKeystoreController.DecryptAccountData(payload);
+        return !string.IsNullOrEmpty(decryptedData) ? Ok(decryptedData) : StatusCode(500, $"Decryption failed");
     }
 }

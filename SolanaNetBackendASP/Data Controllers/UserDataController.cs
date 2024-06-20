@@ -14,7 +14,7 @@ public class UserDataController : IDisposable
 
     public UsersContainer Model { get; set; } = new();
 
-    public UserDataController(ILogger logger)
+    public UserDataController(ILogger<UserDataController> logger)
     {
         _logger = logger;
 
