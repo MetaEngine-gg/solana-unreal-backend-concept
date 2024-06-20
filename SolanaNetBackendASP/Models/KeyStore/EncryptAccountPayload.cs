@@ -1,4 +1,4 @@
-namespace SolanaNetBackendASP.Models;
+namespace SolanaNetBackendASP.Models.KeyStore;
 
 [Serializable]
 public struct EncryptAccountPayload
