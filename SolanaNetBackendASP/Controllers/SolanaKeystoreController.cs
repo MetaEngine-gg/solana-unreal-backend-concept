@@ -44,9 +44,9 @@ public class SolanaKeystoreController : ControllerBase
             return StatusCode(400, "Password is empty");
         }
 
-        if (string.IsNullOrEmpty(payload.EncryptedData))
+        if (string.IsNullOrEmpty(payload.EncryptedAccountData))
         {
-            return StatusCode(400, "Encrypted Data is empty");
+            return StatusCode(400, "Encrypted Account Data is empty");
         }
 
         var decryptedData = _solnetKeystoreController.DecryptAccountData(payload);

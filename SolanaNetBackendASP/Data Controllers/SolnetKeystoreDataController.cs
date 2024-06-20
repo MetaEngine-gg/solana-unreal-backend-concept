@@ -42,7 +42,7 @@ public class SolnetKeystoreDataController
         byte[] data = [];
         try
         {
-            data = _secretKeyStoreService.DecryptKeyStoreFromJson(payload.Password, payload.EncryptedData);
+            data = _secretKeyStoreService.DecryptKeyStoreFromJson(payload.Password, payload.EncryptedAccountData);
         }
         catch (Exception)
         {
