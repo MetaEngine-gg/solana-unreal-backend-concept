@@ -29,13 +29,15 @@ public class SolnetProgramsDataController
         var wallet = userModel.Wallet;
         var memoInstruction = MemoProgram.NewMemo(wallet.Account, "Hello Solana World, using Solnet :)");
 
-        var recentHash = _rpcClient.GetRecentBlockHash();
+        var recentHash = _rpcClient.GetLatestBlockHash();
 
         var tx = new TransactionBuilder().
             SetFeePayer(wallet.Account).
             AddInstruction(memoInstruction).
             SetRecentBlockHash(recentHash.Result.Value.Blockhash).
             Build(wallet.Account);
+
+        _logger.LogInformation("Tx: {Tx}", tx);
 
         return true;
     }
