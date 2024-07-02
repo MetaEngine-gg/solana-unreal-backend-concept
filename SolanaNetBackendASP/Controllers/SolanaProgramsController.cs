@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SolanaNetBackendASP.Data_Controllers;
+using SolanaNetBackendASP.Models;
 
 namespace SolanaNetBackendASP.Controllers;
 
@@ -22,6 +23,19 @@ public class SolanaProgramsController : ControllerBase
         }
     
         var result = _solnetProgramsDataController.RunHelloWorldProgram(walletAddress);
+        return result ? StatusCode(200) : StatusCode(500, "Failed to run program");
+    }
+    
+    [HttpPost, Route("create-and-send-tokens-to-account")]
+    public ActionResult<string> CreateAndSendTokensToAccount([FromBody] CreateAndSendTokensPayload payload)
+    {
+        if (string.IsNullOrEmpty(payload.InitialAccount) || 
+            string.IsNullOrEmpty(payload.OwnerAccount) || string.IsNullOrEmpty(payload.MintAccount))
+        {
+            return StatusCode(400, "Initial account, owner account, and mint account are required");
+        }
+    
+        var result = _solnetProgramsDataController.RunCreateAndSendTokensToAccount(payload);
         return result ? StatusCode(200) : StatusCode(500, "Failed to run program");
     }
 }
