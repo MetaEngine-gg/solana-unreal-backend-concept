@@ -38,4 +38,16 @@ public class SolanaProgramsController : ControllerBase
         var result = _solnetProgramsDataController.RunCreateAndSendTokensToAccount(payload);
         return result ? StatusCode(200) : StatusCode(500, "Failed to run program");
     }
+    
+    [HttpPost, Route("display-token-balances-of-wallet")]
+    public ActionResult<string> DisplayTokenBalancesOfWallet(string walletAddress)
+    {
+        if (string.IsNullOrEmpty(walletAddress))
+        {
+            return StatusCode(400, "Wallet address is required");
+        }
+    
+        var result = _solnetProgramsDataController.RunDisplayTokenBalancesOfWallet(walletAddress);
+        return result ? StatusCode(200) : StatusCode(500, "Failed to run program");
+    }
 }
