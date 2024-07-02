@@ -12,9 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<DataController>();
+builder.Services.AddSingleton<UserDataController>();
+
 builder.Services.AddSingleton<SolnetKeystoreDataController>();
 builder.Services.AddSingleton<SolnetRpcDataController>();
-builder.Services.AddSingleton<UserDataController>();
+builder.Services.AddSingleton<SolnetProgramsDataController>();
 
 var app = builder.Build();
 
