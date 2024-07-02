@@ -14,11 +14,11 @@ public class SolnetProgramsDataController
     private readonly IRpcClient _rpcClient;
 
     public SolnetProgramsDataController(ILogger<SolnetProgramsDataController> logger,
-        UserDataController userDataController, IRpcClient rpcClient)
+        UserDataController userDataController)
     {
         _logger = logger;
         _userDataController = userDataController;
-        _rpcClient = rpcClient;
+        _rpcClient = ClientFactory.GetClient(Cluster.TestNet);
     }
 
     public bool RunHelloWorldProgram(string walletAddress)
