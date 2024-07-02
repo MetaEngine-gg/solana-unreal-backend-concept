@@ -35,7 +35,7 @@ public class SolanaProgramsController : ControllerBase
             return StatusCode(400, "Initial account, owner account, and mint account are required");
         }
     
-        var result = _solnetProgramsDataController.RunCreateAndSendTokensToAccount(payload);
+        var result = _solnetProgramsDataController.CreateAndSendTokensToAccount(payload);
         return result ? StatusCode(200) : StatusCode(500, "Failed to run program");
     }
     
@@ -47,7 +47,7 @@ public class SolanaProgramsController : ControllerBase
             return StatusCode(400, "Wallet address is required");
         }
     
-        var result = _solnetProgramsDataController.RunDisplayTokenBalancesOfWallet(walletAddress);
+        var result = _solnetProgramsDataController.DisplayTokenBalancesOfWallet(walletAddress);
         return result ? StatusCode(200) : StatusCode(500, "Failed to run program");
     }
 }

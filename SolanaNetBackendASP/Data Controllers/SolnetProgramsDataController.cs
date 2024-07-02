@@ -42,7 +42,7 @@ public class SolnetProgramsDataController
         return true;
     }
 
-    public bool RunCreateAndSendTokensToAccount(CreateAndSendTokensPayload payload)
+    public bool CreateAndSendTokensToAccount(CreateAndSendTokensPayload payload)
     {
         if (_userDataController.Model.Users.TryGetValue(payload.InitialAccount, out var initialAccountModel) == false)
         {
@@ -89,7 +89,7 @@ public class SolnetProgramsDataController
         return true;
     }
 
-    public bool RunDisplayTokenBalancesOfWallet(string walletAddress)
+    public bool DisplayTokenBalancesOfWallet(string walletAddress)
     {
         if (_userDataController.Model.Users.TryGetValue(walletAddress, out var ownerAccountModel) == false)
         {
