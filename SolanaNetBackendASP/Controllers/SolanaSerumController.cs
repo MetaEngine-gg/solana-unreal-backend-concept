@@ -13,8 +13,8 @@ public class SolanaSerumController : ControllerBase
         _solnetSerumDataController = programsDataController;
     }
 
-    [HttpPost, Route("get-open-orders")]
-    public ActionResult<string> EncryptAccountData(string openOrdersAccountAddress)
+    [HttpGet, Route("get-open-orders")]
+    public ActionResult<string> GetOpenOrders(string openOrdersAccountAddress)
     {
         if (string.IsNullOrEmpty(openOrdersAccountAddress))
         {
