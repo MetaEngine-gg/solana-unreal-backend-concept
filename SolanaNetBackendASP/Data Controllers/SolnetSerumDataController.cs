@@ -10,18 +10,21 @@ public class SolnetSerumDataController
     private readonly ILogger<SolnetSerumDataController> _logger;
     private readonly ISerumClient _serumClient;
 
-    // Public key for Open Orders Account.
-    private const string OpenOrdersAccountAddress = "4beBRAZSVcCm7jD7yAmizqqVyi39gVrKNeEPskickzSF";
-
     public SolnetSerumDataController(ILogger<SolnetSerumDataController> logger)
     {
         _logger = logger;
         _serumClient = ClientFactory.GetClient(Cluster.TestNet);
     }
 
-    public bool GetOpenOrders()
+    public bool GetOpenOrders(string openOrdersAccountAddress)
     {
-        var account = _serumClient.GetOpenOrdersAccount(OpenOrdersAccountAddress);
+        var account = _serumClient.GetOpenOrdersAccount(openOrdersAccountAddress);
+        if (account == null)
+        {
+            _logger.LogError("Failed to get Open Orders Account");
+            return false;
+        }
+        
         var stringBuilder = new StringBuilder();
         stringBuilder
             .Append("OpenOrdersAccount:: Owner: ")

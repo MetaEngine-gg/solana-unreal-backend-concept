@@ -14,9 +14,14 @@ public class SolanaSerumController : ControllerBase
     }
 
     [HttpPost, Route("get-open-orders")]
-    public ActionResult<string> EncryptAccountData()
+    public ActionResult<string> EncryptAccountData(string openOrdersAccountAddress)
     {
-        var result = _solnetSerumDataController.GetOpenOrders();
+        if (string.IsNullOrEmpty(openOrdersAccountAddress))
+        {
+            return StatusCode(400, "Open orders account address is required.");
+        }
+        
+        var result = _solnetSerumDataController.GetOpenOrders(openOrdersAccountAddress);
         return result ? StatusCode(200) : StatusCode(500, "Failed to get open orders.");
     }
 }
