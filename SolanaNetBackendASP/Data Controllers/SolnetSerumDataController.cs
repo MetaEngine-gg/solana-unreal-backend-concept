@@ -9,24 +9,21 @@ namespace SolanaNetBackendASP.Data_Controllers;
 
 public class SolnetSerumDataController
 {
-    private readonly ILogger<SolnetSerumDataController> _logger;
     private readonly ISerumClient _serumClient;
     private readonly IRpcClient _rpcClient;
 
-    public SolnetSerumDataController(ILogger<SolnetSerumDataController> logger)
+    public SolnetSerumDataController()
     {
-        _logger = logger;
         _serumClient = Solnet.Serum.ClientFactory.GetClient(Cluster.TestNet);
         _rpcClient = Solnet.Rpc.ClientFactory.GetClient(Cluster.TestNet);
     }
 
-    public bool GetOpenOrders(string openOrdersAccountAddress)
+    public (bool result , string text) GetOpenOrders(string openOrdersAccountAddress)
     {
         var account = _serumClient.GetOpenOrdersAccount(openOrdersAccountAddress);
         if (account == null)
         {
-            _logger.LogError("Failed to get Open Orders Account");
-            return false;
+            return (false, "Failed to get Open Orders Account");
         }
 
         var stringBuilder = new StringBuilder();
@@ -44,29 +41,28 @@ public class SolnetSerumDataController
             .Append("QuoteTotal: ")
             .Append(account.QuoteTokenTotal)
             .Append(" QuoteFree: ")
-            .Append(account.QuoteTokenFree);
-
-        _logger.LogInformation(stringBuilder.ToString());
+            .Append(account.QuoteTokenFree)
+            .Append('\n');
 
         foreach (var order in account.Orders)
         {
-            _logger.LogInformation("OpenOrder:: IsBid: {OrderIsBid} Price: {OrderRawPrice}", order.IsBid,
-                order.RawPrice);
+            stringBuilder.Append($"OpenOrder:: IsBid: {order.IsBid} Price: {order.RawPrice}");
         }
 
-        return true;
+        return (true, stringBuilder.ToString());
     }
 
-    public bool FindOpenOrdersAccounts(string marketAddress, string ownerAddress)
+    public (bool result , string text) FindOpenOrdersAccounts(string marketAddress, string ownerAddress)
     {
         // Get the market account data.
         var market = _serumClient.GetMarket(marketAddress);
         if (market == null)
         {
-            _logger.LogError("Failed to get Market");
-            return false;
+            return (false, "Failed to get Market");
         }
 
+        var status = new StringBuilder();
+        
         // Get open orders accounts for a market.
         List<MemCmp> filters =
         [
@@ -78,21 +74,20 @@ public class SolnetSerumDataController
                 dataSize: OpenOrdersAccount.Layout.SpanLength, memCmpList: filters);
         if (accounts.Result.Count == 0)
         {
-            _logger.LogInformation("No Open Orders Accounts found");
-            return false;
+            return (false, "No Open Orders Accounts found");
         }
 
         // Print all the found open orders accounts
         foreach (var account in accounts.Result)
         {
-            _logger.LogInformation($"---------------------");
+            status.Append($"---------------------");
             // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
-            _logger.LogInformation($"OpenOrdersAccount: {account.PublicKey} - Owner: {account.Account.Owner}");
+            status.Append($"OpenOrdersAccount: {account.PublicKey} - Owner: {account.Account.Owner}");
             var ooa = OpenOrdersAccount.Deserialize(Convert.FromBase64String(account.Account.Data[0]));
-            _logger.LogInformation($"OpenOrdersAccount:: Owner: {ooa.Owner.Key} Market: {ooa.Market.Key}\n" +
+            status.Append($"OpenOrdersAccount:: Owner: {ooa.Owner.Key} Market: {ooa.Market.Key}\n" +
                                    $"BaseTotal: {ooa.BaseTokenTotal} BaseFree: {ooa.BaseTokenFree}\n" +
                                    $"QuoteTotal: {ooa.QuoteTokenTotal} QuoteFree: {ooa.QuoteTokenFree}");
-            _logger.LogInformation($"---------------------");
+            status.Append($"---------------------");
         }
 
         var openOrdersAddress = accounts.Result[0].PublicKey;
@@ -117,26 +112,27 @@ public class SolnetSerumDataController
 
         foreach (var openOrder in openOrdersAccount.Orders)
         {
-            _logger.LogInformation($"OpenOrder:: Bid: {openOrder.IsBid}\t" +
+            status.Append($"OpenOrder:: Bid: {openOrder.IsBid}\t" +
                                    $"Price: {openOrder.RawPrice}\t" +
                                    $"Quantity: {openOrder.RawQuantity}\t" +
                                    $"OrderId: {openOrder.OrderId}\t" +
                                    $"ClientOrderId: {openOrder.ClientOrderId}");
         }
 
-        return true;
+        return (true, status.ToString());
     }
 
-    public bool GetTokenMints()
+    public (bool result , string text) GetTokenMints()
     {
-        _logger.LogInformation("Token Mints:");
+        var status = new StringBuilder();
+        status.Append("Token Mints:");
         
         var res = _serumClient.GetTokens();
         foreach (var tokenInfo in res)
         {
-            _logger.LogInformation($"TokenInfo :: Name: {tokenInfo.Name} :: Address: {tokenInfo.Address.Key}");
+            status.Append($"TokenInfo :: Name: {tokenInfo.Name} :: Address: {tokenInfo.Address.Key}");
         }
 
-        return true;
+        return (true, status.ToString());
     }
 }

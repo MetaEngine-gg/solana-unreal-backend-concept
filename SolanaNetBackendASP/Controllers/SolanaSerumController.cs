@@ -21,8 +21,8 @@ public class SolanaSerumController : ControllerBase
             return StatusCode(400, "Open orders account address is required.");
         }
         
-        var result = _solnetSerumDataController.GetOpenOrders(openOrdersAccountAddress);
-        return result ? StatusCode(200) : StatusCode(500, "Failed to get open orders.");
+        var payload = _solnetSerumDataController.GetOpenOrders(openOrdersAccountAddress);
+        return payload.result ? StatusCode(200, payload.text) : StatusCode(500, payload.text);
     }
     
     [HttpGet, Route("find-open-orders-accounts")]
@@ -38,14 +38,14 @@ public class SolanaSerumController : ControllerBase
             return StatusCode(400, "Owner address is required.");
         }
         
-        var result = _solnetSerumDataController.FindOpenOrdersAccounts(marketAddress, ownerAddress);
-        return result ? StatusCode(200) : StatusCode(500, "Failed to get open orders accounts.");
+        var payload = _solnetSerumDataController.FindOpenOrdersAccounts(marketAddress, ownerAddress);
+        return payload.result ? StatusCode(200, payload.text) : StatusCode(500, payload.text);
     }
     
     [HttpGet, Route("get-token-mints")]
     public ActionResult<string> GetTokenMints()
     {
-        var result = _solnetSerumDataController.GetTokenMints();
-        return result ? StatusCode(200) : StatusCode(500, "Failed to get token mints.");
+        var payload = _solnetSerumDataController.GetTokenMints();
+        return payload.result ? StatusCode(200, payload.text) : StatusCode(500, payload.text);
     }
 }
