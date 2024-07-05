@@ -24,4 +24,21 @@ public class SolanaSerumController : ControllerBase
         var result = _solnetSerumDataController.GetOpenOrders(openOrdersAccountAddress);
         return result ? StatusCode(200) : StatusCode(500, "Failed to get open orders.");
     }
+    
+    [HttpGet, Route("find-open-orders-accounts")]
+    public ActionResult<string> FindOpenOrdersAccounts(string marketAddress, string ownerAddress)
+    {
+        if (string.IsNullOrEmpty(marketAddress))
+        {
+            return StatusCode(400, "Market address is required.");
+        }
+        
+        if (string.IsNullOrEmpty(ownerAddress))
+        {
+            return StatusCode(400, "Owner address is required.");
+        }
+        
+        var result = _solnetSerumDataController.FindOpenOrdersAccounts(marketAddress, ownerAddress);
+        return result ? StatusCode(200) : StatusCode(500, "Failed to get open orders accounts.");
+    }
 }
