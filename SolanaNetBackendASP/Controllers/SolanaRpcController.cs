@@ -32,7 +32,7 @@ public class SolanaRpcController : ControllerBase
     {
         if (string.IsNullOrEmpty(address))
         {
-            return StatusCode(400, "Address is empty");
+            return StatusCode(400, "Address is required");
         }
         
         var (result, info) = await _solnetRpcController.GetAccountInfo(address);
