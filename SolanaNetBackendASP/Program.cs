@@ -17,6 +17,7 @@ builder.Services.AddSingleton<UserDataController>();
 builder.Services.AddSingleton<SolnetKeystoreDataController>();
 builder.Services.AddSingleton<SolnetRpcDataController>();
 builder.Services.AddSingleton<SolnetProgramsDataController>();
+builder.Services.AddSingleton<SolnetSerumDataController>();
 
 var app = builder.Build();
 
