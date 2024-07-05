@@ -56,6 +56,12 @@ public class SolnetRpcDataController : IDisposable
     public async Task<(bool, AccountInfo)> GetAccountInfo(string address)
     {
         var request = await _rpcClient.GetAccountInfoAsync(address);
+        if (!request.WasSuccessful)
+        {
+            _logger.LogError("Account info not found for address: {Address}", address);
+            return (false, new AccountInfo());
+        }
+        
         return (request.WasSuccessful, request.Result.Value);
     }
     
