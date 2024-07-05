@@ -55,10 +55,7 @@ public class SolnetRpcDataController : IDisposable
 
     public async Task<(bool, AccountInfo)> GetAccountInfo(string address)
     {
-        // Get a certain account's info
-        var publicKey = "5omQJtDUHA3gMFdHEQg1zZSvcBUVzey5WaKWYRmqF1Vj"; // example wallet address, just placeholder
-        var request = await _rpcClient.GetAccountInfoAsync(publicKey);
-        
+        var request = await _rpcClient.GetAccountInfoAsync(address);
         return (request.WasSuccessful, request.Result.Value);
     }
     
