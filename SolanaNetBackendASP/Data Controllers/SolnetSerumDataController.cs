@@ -126,4 +126,17 @@ public class SolnetSerumDataController
 
         return true;
     }
+
+    public bool GetTokenMints()
+    {
+        _logger.LogInformation("Token Mints:");
+        
+        var res = _serumClient.GetTokens();
+        foreach (var tokenInfo in res)
+        {
+            _logger.LogInformation($"TokenInfo :: Name: {tokenInfo.Name} :: Address: {tokenInfo.Address.Key}");
+        }
+
+        return true;
+    }
 }

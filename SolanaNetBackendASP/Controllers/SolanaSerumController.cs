@@ -41,4 +41,11 @@ public class SolanaSerumController : ControllerBase
         var result = _solnetSerumDataController.FindOpenOrdersAccounts(marketAddress, ownerAddress);
         return result ? StatusCode(200) : StatusCode(500, "Failed to get open orders accounts.");
     }
+    
+    [HttpGet, Route("get-token-mints")]
+    public ActionResult<string> GetTokenMints()
+    {
+        var result = _solnetSerumDataController.GetTokenMints();
+        return result ? StatusCode(200) : StatusCode(500, "Failed to get token mints.");
+    }
 }
