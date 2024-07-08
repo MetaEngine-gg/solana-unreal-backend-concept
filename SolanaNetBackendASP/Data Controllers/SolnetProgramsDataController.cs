@@ -1,3 +1,4 @@
+using System.Text;
 using SolanaNetBackendASP.Models;
 using Solnet.Extensions;
 using Solnet.Programs;
@@ -21,12 +22,12 @@ public class SolnetProgramsDataController
         _rpcClient = ClientFactory.GetClient(Cluster.TestNet);
     }
 
-    public bool RunHelloWorldProgram(string walletAddress)
+    public (bool result, string text) RunHelloWorldProgram(string walletAddress)
     {
         if (_userDataController.Model.Users.TryGetValue(walletAddress, out var userModel) == false)
         {
             _logger.LogError("Wallet not found");
-            return false;
+            return (false, "Wallet not found");
         }
 
         var wallet = userModel.Wallet;
@@ -38,28 +39,27 @@ public class SolnetProgramsDataController
             .SetRecentBlockHash(recentHash.Result.Value.Blockhash).Build(wallet.Account);
 
         _logger.LogInformation("Tx: {Tx}", tx);
-
-        return true;
+        return (true, "Success");
     }
 
-    public bool CreateAndSendTokensToAccount(CreateAndSendTokensPayload payload)
+    public (bool result, string text) CreateAndSendTokensToAccount(CreateAndSendTokensPayload payload)
     {
         if (_userDataController.Model.Users.TryGetValue(payload.InitialAccount, out var initialAccountModel) == false)
         {
             _logger.LogError("Initial account not found");
-            return false;
+            return (false, "Initial account not found");
         }
 
         if (_userDataController.Model.Users.TryGetValue(payload.OwnerAccount, out var ownerAccountModel) == false)
         {
             _logger.LogError("Owner account not found");
-            return false;
+            return (false, "Owner account not found");
         }
 
         if (_userDataController.Model.Users.TryGetValue(payload.MintAccount, out var mintAccountModel) == false)
         {
             _logger.LogError("Mint account not found");
-            return false;
+            return (false, "Mint account not found");
         }
 
         var recentHash = _rpcClient.GetLatestBlockHash();
@@ -86,17 +86,20 @@ public class SolnetProgramsDataController
 
         var signature = _rpcClient.SendTransaction(txBytes);
         _logger.LogInformation("Signature: {Signature}", signature.Result);
-        return true;
+        
+        return (true, signature.Result);
     }
 
-    public bool DisplayTokenBalancesOfWallet(string walletAddress)
+    public (bool result, string text) DisplayTokenBalancesOfWallet(string walletAddress)
     {
         if (_userDataController.Model.Users.TryGetValue(walletAddress, out var ownerAccountModel) == false)
         {
             _logger.LogError("Wallet not found");
-            return false;
+            return (false, "Wallet not found");
         }
 
+        var status = new StringBuilder();
+        
         // load Solana token list and get RPC client
         var tokens = TokenMintResolver.Load();
         var client = ClientFactory.GetClient(Cluster.MainNet);
@@ -109,14 +112,15 @@ public class SolnetProgramsDataController
         var maxSum = balances.Max(x => x.Symbol.Length);
         var maxName = balances.Max(x => x.TokenName.Length);
         _logger.LogInformation("Individual Accounts...");
+        status.AppendLine("Individual Accounts...");
 
         foreach (var account in tokenWallet.TokenAccounts())
         {
-            _logger.LogInformation(
-                $"{account.Symbol.PadRight(maxSum)} {account.QuantityDecimal,14} {account.TokenName.PadRight(maxName)} {account.PublicKey} {(account.IsAssociatedTokenAccount ? "[ATA]" : "")}");
+            var message = $"{account.Symbol.PadRight(maxSum)} {account.QuantityDecimal,14} {account.TokenName.PadRight(maxName)} {account.PublicKey} {(account.IsAssociatedTokenAccount ? "[ATA]" : "")}";
+            _logger.LogInformation(message);
+            status.AppendLine(message);
         }
 
-        _logger.LogInformation("");
-        return true;
+        return (true, status.ToString());
     }
 }
