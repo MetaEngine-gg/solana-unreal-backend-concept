@@ -32,8 +32,8 @@ public class SolanaKeystoreController : ControllerBase
             return StatusCode(400, "Public Key is empty");
         }
 
-        var encryptedData = _solnetKeystoreController.EncryptAccountData(payload);
-        return !string.IsNullOrEmpty(encryptedData) ? StatusCode(200, encryptedData) : StatusCode(500, "Encryption failed");
+        var status = _solnetKeystoreController.EncryptAccountData(payload);
+        return status.result ? StatusCode(200, status.text) : StatusCode(500, status.text);
     }
 
     [HttpPost, Route("decrypt-account-data")]
@@ -49,8 +49,8 @@ public class SolanaKeystoreController : ControllerBase
             return StatusCode(400, "Encrypted Account Data is empty");
         }
 
-        var decryptedData = _solnetKeystoreController.DecryptAccountData(payload);
-        return !string.IsNullOrEmpty(decryptedData) ? StatusCode(200, decryptedData) : StatusCode(500, "Decryption failed");
+        var status = _solnetKeystoreController.DecryptAccountData(payload);
+        return status.result ? StatusCode(200, status.text) : StatusCode(500, status.text);
     }
 
     [HttpPost, Route("restore-key-store")]
@@ -66,7 +66,7 @@ public class SolanaKeystoreController : ControllerBase
             return StatusCode(400, "Password is empty");
         }
 
-        var decryptedData = _solnetKeystoreController.RestoreKeyStore(payload);
-        return !string.IsNullOrEmpty(decryptedData) ? StatusCode(200, decryptedData) : StatusCode(500, "Restore failed");
+        var status = _solnetKeystoreController.RestoreKeyStore(payload);
+        return status.result ? StatusCode(200, status.text) : StatusCode(500, status.text);
     }
 }

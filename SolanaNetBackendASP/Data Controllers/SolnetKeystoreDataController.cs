@@ -20,7 +20,7 @@ public class SolnetKeystoreDataController
 
     #region Secret Key Store
 
-    public string EncryptAccountData(EncryptAccountPayload payload)
+    public (bool result, string text) EncryptAccountData(EncryptAccountPayload payload)
     {
         var accountDataBytes = Encoding.UTF8.GetBytes(payload.AccountData);
         // Encrypt a private key, seed or mnemonic associated with a certain address
@@ -32,13 +32,13 @@ public class SolnetKeystoreDataController
 
         // here you can save encrypted data to a file or database
 
-        return jsonString;
+        return (true, jsonString);
     }
 
-    public string DecryptAccountData(DecryptAccountPayload payload)
+    public (bool result, string text) DecryptAccountData(DecryptAccountPayload payload)
     {
         // Or decrypt a web3 secret storage encrypted json data
-        byte[] data = [];
+        byte[] data;
         try
         {
             data = _secretKeyStoreService.DecryptKeyStoreFromJson(payload.Password, payload.EncryptedAccountData);
@@ -46,16 +46,17 @@ public class SolnetKeystoreDataController
         catch (Exception)
         {
             _logger.LogError("Failed to decrypt account data, invalid password or encrypted data");
+            return (false, "Failed to decrypt account data, invalid password or encrypted data");
         }
 
-        return Encoding.UTF8.GetString(data);
+        return (true, Encoding.UTF8.GetString(data));
     }
 
     #endregion
 
     #region Solana Key Store
 
-    public string RestoreKeyStore(RestoreKeyStorePayload payload)
+    public (bool result, string text) RestoreKeyStore(RestoreKeyStorePayload payload)
     {
         try
         {
@@ -65,12 +66,12 @@ public class SolnetKeystoreDataController
         
             // here you can save the wallet to a file or database, or assign it to a user etc.
 
-            return wallet.Account.PublicKey;
+            return (true, wallet.Account.PublicKey);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to restore key store");
-            return "Failed to restore key store";
+            return (false, "Failed to restore key store");
         }
     }
 
