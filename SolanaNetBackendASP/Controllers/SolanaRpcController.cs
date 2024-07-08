@@ -24,7 +24,7 @@ public class SolanaRpcController : ControllerBase
         }
         
         var isSuccess = _solnetRpcController.RequestAirDrop(address, 100000);
-        return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Air Drop has failed");
+        return isSuccess ? StatusCode(200, "Air Drop completed successfully") : StatusCode(500, "Air Drop has failed");
     }
     
     [HttpGet, Route("get-account-info/{address}")]
@@ -35,8 +35,8 @@ public class SolanaRpcController : ControllerBase
             return StatusCode(400, "Address is required");
         }
         
-        var (result, info) = await _solnetRpcController.GetAccountInfo(address);
-        return result ? Ok(info) : StatusCode(404, "Account info not found");
+        var status = await _solnetRpcController.GetAccountInfo(address);
+        return status.result ? StatusCode(200, status.accountInfo) : StatusCode(404, "Account info not found");
     }
     
     [HttpPost, Route("send-transaction")]
@@ -57,7 +57,7 @@ public class SolanaRpcController : ControllerBase
             return StatusCode(400, $"From and To Address cannot be the same");
         }
         
-        var isSuccess = await _solnetRpcController.SendTransaction(payload.FromAddress, payload.ToAddress, payload.Amount);
-        return isSuccess ? Ok(isSuccess) : StatusCode(500, $"Transaction has failed");
+        var status = await _solnetRpcController.SendTransaction(payload.FromAddress, payload.ToAddress, payload.Amount);
+        return status.result ? StatusCode(200, "Transaction completed successfully") : StatusCode(500, status.text);
     }
 }

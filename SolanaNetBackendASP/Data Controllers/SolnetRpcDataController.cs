@@ -53,7 +53,7 @@ public class SolnetRpcDataController : IDisposable
         return transactionHash.WasSuccessful;
     }
 
-    public async Task<(bool, AccountInfo)> GetAccountInfo(string address)
+    public async Task<(bool result , AccountInfo accountInfo)> GetAccountInfo(string address)
     {
         var request = await _rpcClient.GetAccountInfoAsync(address);
         if (!request.WasSuccessful)
@@ -65,7 +65,7 @@ public class SolnetRpcDataController : IDisposable
         return (request.WasSuccessful, request.Result.Value);
     }
     
-    public async Task<bool> SendTransaction(string fromAddress, string toAddress, ulong amount)
+    public async Task<(bool result , string text)> SendTransaction(string fromAddress, string toAddress, ulong amount)
     {
         var fromWallet = _dataController.UserDataController.Model.Users.TryGetValue(fromAddress, out var fromUser) ? fromUser.Wallet : null;
         var toWallet = _dataController.UserDataController.Model.Users.TryGetValue(toAddress, out var toUser) ? toUser.Wallet : null;
@@ -73,13 +73,13 @@ public class SolnetRpcDataController : IDisposable
         if (fromWallet == null)
         {
             _logger.LogError("Wallet not found for address: {FromAddress}", fromAddress);
-            return false;
+            return (false, $"Wallet not found for address: {fromAddress}");
         }
         
         if (toWallet == null)
         {
             _logger.LogError("Wallet not found for address: {ToAddress}", toAddress);
-            return false;
+            return (false, $"Wallet not found for address: {toAddress}");
         }
         
         // Get a recent block hash to include in the transaction
@@ -94,6 +94,6 @@ public class SolnetRpcDataController : IDisposable
             Build(fromWallet.Account);
 
         var transaction = await _rpcClient.SendTransactionAsync(tx);
-        return transaction.WasSuccessful;
+        return transaction.WasSuccessful ? (true, "Transaction completed successfully") : (false, $"Error Code: {transaction.ServerErrorCode}");
     }
 }
