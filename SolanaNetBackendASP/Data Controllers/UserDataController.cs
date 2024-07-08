@@ -1,8 +1,6 @@
 ﻿using SolanaNetBackendASP.Data_Controllers.Components;
 using SolanaNetBackendASP.Models.User;
 using Solnet.Rpc;
-using Solnet.Rpc.Core.Http;
-using Solnet.Rpc.Messages;
 
 namespace SolanaNetBackendASP.Data_Controllers;
 
@@ -47,34 +45,40 @@ public class UserDataController : IDisposable
 
     #region Wallet Operations
 
-    public async Task<RequestResult<ResponseValue<ulong>>> GetBalance(string address)
-    {
-        var result = await _rpcClient.GetBalanceAsync(address);
-        return result;
-    }
-
-    public string GetPrivateKey(string address)
-    {
-        var result = Model.Users.TryGetValue(address, out var user);
-        if (!result)
-        {
-            _logger.LogError("User not found for address: {Address}", address);
-            return string.Empty;
-        }
-
-        return user.Wallet.Account.PrivateKey;
-    }
-    
-    public string GetPublicKey(string address)
+    public (bool result, string text) GetPublicKey(string address)
     {
         var userModel = Model.Users.FirstOrDefault(pair => pair.Value.Name == address).Value;
         if (userModel == null)
         {
             _logger.LogError("User not found for address: {Address}", address);
-            return string.Empty;
+            return (false, $"User not found: {address}");
         }
 
-        return userModel.Wallet.Account.PublicKey;
+        return (true, $"Public Key: {userModel.Wallet.Account.PublicKey}");
+    }
+    
+    public (bool result, string text) GetPrivateKey(string address)
+    {
+        var result = Model.Users.TryGetValue(address, out var user);
+        if (!result)
+        {
+            _logger.LogError("User not found for address: {Address}", address);
+            return (false, $"User not found: {address}");
+        }
+
+        return (true, $"Private Key: {user.Wallet.Account.PrivateKey}");
+    }
+    
+    public async Task<(bool result, string text)> GetBalance(string address)
+    {
+        var result = await _rpcClient.GetBalanceAsync(address);
+        if (!result.WasSuccessful)
+        {
+            _logger.LogError("Failed to retrieve balance for address: {Address}", address);
+            return (false, $"Failed to retrieve balance for address: {address}");
+        }
+
+        return (true, $"Balance: {result.Result.Value}");
     }
 
     #endregion

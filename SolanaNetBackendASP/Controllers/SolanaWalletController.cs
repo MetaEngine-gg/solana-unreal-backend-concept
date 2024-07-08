@@ -16,21 +16,21 @@ public class SolanaWalletController : ControllerBase
     [HttpGet, Route("public-key/{username}")]
     public ActionResult<string> GetPublicKey(string username)
     {
-        var result = _userController.GetPublicKey(username);
-        return string.IsNullOrEmpty(result) ? Ok(result) : StatusCode(404, $"No public key found for username [{username}]!");
+        var status = _userController.GetPublicKey(username);
+        return status.result ? StatusCode(200, status.text) : StatusCode(404, status.text);
     }
     
     [HttpGet, Route("private-key/{address}")]
     public ActionResult<string> GetPrivateKey(string address)
     {
-        var result = _userController.GetPrivateKey(address);
-        return string.IsNullOrEmpty(result) ? Ok(result) : StatusCode(404, $"No private key found for address {address}!");
+        var status = _userController.GetPrivateKey(address);
+        return status.result ? StatusCode(200, status.text) : StatusCode(404, status.text);
     }
 
     [HttpGet, Route("balance/{address}")]
     public async Task<ActionResult<ulong>> GetBalance(string address)
     {
-        var request = await _userController.GetBalance(address);
-        return request.WasSuccessful ? Ok(request.Result.Value) : StatusCode(500, $"Error retrieving balance!");
+        var status = await _userController.GetBalance(address);
+        return status.result ? StatusCode(200, status.text) : StatusCode(404, status.text);
     }
 }
