@@ -33,7 +33,7 @@ public class SolanaKeystoreController : ControllerBase
         }
 
         var encryptedData = _solnetKeystoreController.EncryptAccountData(payload);
-        return !string.IsNullOrEmpty(encryptedData) ? Ok(encryptedData) : StatusCode(500, "Encryption failed");
+        return !string.IsNullOrEmpty(encryptedData) ? StatusCode(200, encryptedData) : StatusCode(500, "Encryption failed");
     }
 
     [HttpPost, Route("decrypt-account-data")]
@@ -50,7 +50,7 @@ public class SolanaKeystoreController : ControllerBase
         }
 
         var decryptedData = _solnetKeystoreController.DecryptAccountData(payload);
-        return !string.IsNullOrEmpty(decryptedData) ? Ok(decryptedData) : StatusCode(500, "Decryption failed");
+        return !string.IsNullOrEmpty(decryptedData) ? StatusCode(200, decryptedData) : StatusCode(500, "Decryption failed");
     }
 
     [HttpPost, Route("restore-key-store")]
@@ -67,6 +67,6 @@ public class SolanaKeystoreController : ControllerBase
         }
 
         var decryptedData = _solnetKeystoreController.RestoreKeyStore(payload);
-        return !string.IsNullOrEmpty(decryptedData) ? Ok(decryptedData) : StatusCode(500, "Restore failed");
+        return !string.IsNullOrEmpty(decryptedData) ? StatusCode(200, decryptedData) : StatusCode(500, "Restore failed");
     }
 }
