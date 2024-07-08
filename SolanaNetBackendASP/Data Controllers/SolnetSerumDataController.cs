@@ -125,12 +125,12 @@ public class SolnetSerumDataController
     public (bool result , string text) GetTokenMints()
     {
         var status = new StringBuilder();
-        status.Append("Token Mints:");
+        status.AppendLine("Token Mints:");
         
         var res = _serumClient.GetTokens();
         foreach (var tokenInfo in res)
         {
-            status.Append($"TokenInfo :: Name: {tokenInfo.Name} :: Address: {tokenInfo.Address.Key}");
+            status.AppendLine($"TokenInfo :: Name: {tokenInfo.Name} :: Address: {tokenInfo.Address.Key}");
         }
 
         return (true, status.ToString());
