@@ -28,25 +28,21 @@ public class SolnetSerumDataController
 
         var stringBuilder = new StringBuilder();
         stringBuilder
-            .Append("OpenOrdersAccount:: Owner: ")
-            .Append(account.Owner.Key)
-            .Append(" Market: ")
-            .Append(account.Market.Key)
-            .Append('\n')
-            .Append("BaseTotal: ")
-            .Append(account.BaseTokenTotal)
-            .Append(" BaseFree: ")
-            .Append(account.BaseTokenFree)
-            .Append('\n')
-            .Append("QuoteTotal: ")
-            .Append(account.QuoteTokenTotal)
-            .Append(" QuoteFree: ")
-            .Append(account.QuoteTokenFree)
-            .Append('\n');
+            .AppendLine("OpenOrdersAccount::")
+            .AppendLine($"Owner: {account.Owner.Key}")
+            .AppendLine($"Market: {account.Market.Key}")
+            .AppendLine($"BaseTotal: {account.BaseTokenTotal}")
+            .AppendLine($"BaseFree: {account.BaseTokenFree}")
+            .AppendLine($"QuoteTotal: {account.QuoteTokenTotal}")
+            .AppendLine($"QuoteFree: {account.QuoteTokenFree}")
+            .AppendLine();
 
         foreach (var order in account.Orders)
         {
-            stringBuilder.Append($"OpenOrder:: IsBid: {order.IsBid} Price: {order.RawPrice}");
+            stringBuilder.AppendLine("OpenOrder::")
+                .AppendLine($"IsBid: {order.IsBid}")
+                .AppendLine($"Price: {order.RawPrice}")
+                .AppendLine();
         }
 
         return (true, stringBuilder.ToString());
@@ -58,7 +54,7 @@ public class SolnetSerumDataController
         var market = _serumClient.GetMarket(marketAddress);
         if (market == null)
         {
-            return (false, "Failed to get Market");
+            return (false, "Failed to get market by market address");
         }
 
         var status = new StringBuilder();
@@ -80,14 +76,15 @@ public class SolnetSerumDataController
         // Print all the found open orders accounts
         foreach (var account in accounts.Result)
         {
-            status.Append($"---------------------");
-            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
-            status.Append($"OpenOrdersAccount: {account.PublicKey} - Owner: {account.Account.Owner}");
             var ooa = OpenOrdersAccount.Deserialize(Convert.FromBase64String(account.Account.Data[0]));
-            status.Append($"OpenOrdersAccount:: Owner: {ooa.Owner.Key} Market: {ooa.Market.Key}\n" +
-                                   $"BaseTotal: {ooa.BaseTokenTotal} BaseFree: {ooa.BaseTokenFree}\n" +
-                                   $"QuoteTotal: {ooa.QuoteTokenTotal} QuoteFree: {ooa.QuoteTokenFree}");
-            status.Append($"---------------------");
+            
+            status.AppendLine("---------------------");
+            status.AppendLine($"OpenOrdersAccount:: Owner: {ooa.Owner.Key} Market: {ooa.Market.Key}");
+            status.AppendLine();
+            status.AppendLine($"OpenOrdersAccount:: Owner: {ooa.Owner.Key} Market: {ooa.Market.Key}");
+            status.AppendLine($"BaseTotal: {ooa.BaseTokenTotal} BaseFree: {ooa.BaseTokenFree}");
+            status.AppendLine($"QuoteTotal: {ooa.QuoteTokenTotal} QuoteFree: {ooa.QuoteTokenFree}");
+            status.AppendLine("---------------------");
         }
 
         var openOrdersAddress = accounts.Result[0].PublicKey;
@@ -112,11 +109,14 @@ public class SolnetSerumDataController
 
         foreach (var openOrder in openOrdersAccount.Orders)
         {
-            status.Append($"OpenOrder:: Bid: {openOrder.IsBid}\t" +
-                                   $"Price: {openOrder.RawPrice}\t" +
-                                   $"Quantity: {openOrder.RawQuantity}\t" +
-                                   $"OrderId: {openOrder.OrderId}\t" +
-                                   $"ClientOrderId: {openOrder.ClientOrderId}");
+            status.AppendLine("---------------------");
+            status.AppendLine($"OpenOrder::");
+            status.AppendLine($"Bid: {openOrder.IsBid}");
+            status.AppendLine($"Price: {openOrder.RawPrice}");
+            status.AppendLine($"Quantity: {openOrder.RawQuantity}");
+            status.AppendLine($"OrderId: {openOrder.OrderId}");
+            status.AppendLine($"ClientOrderId: {openOrder.ClientOrderId}");
+            status.AppendLine("---------------------");
         }
 
         return (true, status.ToString());
