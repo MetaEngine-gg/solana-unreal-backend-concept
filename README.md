@@ -116,7 +116,3 @@ public struct EncryptAccountPayload
 ## Solnet Library
 
 Consider checking out the [Solnet](https://github.com/bmresearch/Solnet) library for more information on how to interact with Solana blockchain.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/bmresearch/Solnet/blob/master/LICENSE) file for details
