@@ -1,7 +1,7 @@
 ﻿using Solnet.Wallet;
 using Solnet.Wallet.Bip39;
 
-namespace Core.Data_Controllers.Components;
+namespace SolBridge.Data_Controllers.Components;
 
 public static class SolnetWallet
 {

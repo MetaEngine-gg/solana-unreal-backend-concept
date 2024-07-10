@@ -1,4 +1,4 @@
-namespace Core.Models.User;
+namespace SolBridge.Models.User;
 
 [Serializable]
 public class UsersContainer

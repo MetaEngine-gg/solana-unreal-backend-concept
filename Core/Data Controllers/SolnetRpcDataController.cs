@@ -3,7 +3,7 @@ using Solnet.Rpc;
 using Solnet.Rpc.Builders;
 using Solnet.Rpc.Models;
 
-namespace Core.Data_Controllers;
+namespace SolBridge.Data_Controllers;
 
 public class SolnetRpcDataController : IDisposable
 {

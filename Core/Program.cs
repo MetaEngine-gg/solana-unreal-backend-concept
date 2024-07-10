@@ -1,4 +1,4 @@
-using Core.Data_Controllers;
+using SolBridge.Data_Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 

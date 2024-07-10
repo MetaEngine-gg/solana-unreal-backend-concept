@@ -1,8 +1,8 @@
-using Core.Data_Controllers;
-using Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using SolBridge.Data_Controllers;
+using SolBridge.Models;
 
-namespace Core.Controllers;
+namespace SolBridge.Controllers;
 
 [ApiController, Route("api/solana-programs")]
 public class SolanaProgramsController : ControllerBase

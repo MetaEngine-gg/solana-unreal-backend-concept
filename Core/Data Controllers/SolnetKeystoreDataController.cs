@@ -1,8 +1,8 @@
 using System.Text;
-using Core.Models.KeyStore;
+using SolBridge.Models.KeyStore;
 using Solnet.KeyStore;
 
-namespace Core.Data_Controllers;
+namespace SolBridge.Data_Controllers;
 
 public class SolnetKeystoreDataController
 {

@@ -1,4 +1,4 @@
-namespace Core.Models.Rpc;
+namespace SolBridge.Models.Rpc;
 
 [Serializable]
 public struct SendTransactionPayload
