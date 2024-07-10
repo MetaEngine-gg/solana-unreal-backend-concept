@@ -1,4 +1,4 @@
-namespace SolanaNetBackendASP.Models.User;
+namespace Core.Models.User;
 
 [Serializable]
 public class UsersContainer

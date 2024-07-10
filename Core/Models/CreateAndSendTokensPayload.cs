@@ -1,4 +1,4 @@
-namespace SolanaNetBackendASP.Models;
+namespace Core.Models;
 
 [Serializable]
 public struct CreateAndSendTokensPayload

@@ -1,8 +1,8 @@
+using Core.Data_Controllers;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using SolanaNetBackendASP.Data_Controllers;
-using SolanaNetBackendASP.Models;
 
-namespace SolanaNetBackendASP.Controllers;
+namespace Core.Controllers;
 
 [ApiController, Route("api/solana-programs")]
 public class SolanaProgramsController : ControllerBase

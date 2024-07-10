@@ -1,7 +1,7 @@
+using Core.Models.User;
 using Newtonsoft.Json;
-using SolanaNetBackendASP.Models.User;
 
-namespace SolanaNetBackendASP.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class DataController
 {

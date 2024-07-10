@@ -1,12 +1,12 @@
 using System.Text;
-using SolanaNetBackendASP.Models;
+using Core.Models;
 using Solnet.Extensions;
 using Solnet.Programs;
 using Solnet.Rpc;
 using Solnet.Rpc.Builders;
 using Solnet.Wallet;
 
-namespace SolanaNetBackendASP.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class SolnetProgramsDataController
 {

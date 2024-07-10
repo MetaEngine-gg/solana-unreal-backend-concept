@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SolanaNetBackendASP.Data_Controllers;
+﻿using Core.Data_Controllers;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SolanaNetBackendASP.Controllers;
+namespace Core.Controllers;
 
 [ApiController, Route("api/solana-wallet")]
 public class SolanaWalletController : ControllerBase

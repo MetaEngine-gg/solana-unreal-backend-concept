@@ -1,8 +1,8 @@
-﻿using SolanaNetBackendASP.Data_Controllers.Components;
-using SolanaNetBackendASP.Models.User;
+﻿using Core.Data_Controllers.Components;
+using Core.Models.User;
 using Solnet.Rpc;
 
-namespace SolanaNetBackendASP.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class UserDataController : IDisposable
 {

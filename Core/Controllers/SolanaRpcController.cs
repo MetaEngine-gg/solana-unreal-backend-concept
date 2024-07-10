@@ -1,9 +1,9 @@
+using Core.Data_Controllers;
+using Core.Models.Rpc;
 using Microsoft.AspNetCore.Mvc;
-using SolanaNetBackendASP.Data_Controllers;
-using SolanaNetBackendASP.Models.Rpc;
 using Solnet.Rpc.Models;
 
-namespace SolanaNetBackendASP.Controllers;
+namespace Core.Controllers;
 
 [ApiController, Route("api/solana-rpc")]
 public class SolanaRpcController : ControllerBase

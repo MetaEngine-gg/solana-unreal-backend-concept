@@ -1,4 +1,4 @@
-using SolanaNetBackendASP.Data_Controllers;
+using Core.Data_Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
+using Core.Data_Controllers;
 using Microsoft.AspNetCore.Mvc;
-using SolanaNetBackendASP.Data_Controllers;
 
-namespace SolanaNetBackendASP.Controllers;
+namespace Core.Controllers;
 
 [ApiController, Route("api/solana-serum")]
 public class SolanaSerumController : ControllerBase

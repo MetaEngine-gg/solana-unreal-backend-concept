@@ -3,7 +3,7 @@ using Solnet.Rpc;
 using Solnet.Rpc.Builders;
 using Solnet.Rpc.Models;
 
-namespace SolanaNetBackendASP.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class SolnetRpcDataController : IDisposable
 {

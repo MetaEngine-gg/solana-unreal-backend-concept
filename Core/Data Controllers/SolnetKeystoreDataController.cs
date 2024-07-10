@@ -1,8 +1,8 @@
 using System.Text;
-using SolanaNetBackendASP.Models.KeyStore;
+using Core.Models.KeyStore;
 using Solnet.KeyStore;
 
-namespace SolanaNetBackendASP.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class SolnetKeystoreDataController
 {
