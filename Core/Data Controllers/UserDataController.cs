@@ -1,8 +1,8 @@
-﻿using SolBridge.Data_Controllers.Components;
-using SolBridge.Models.User;
+﻿using Core.Data_Controllers.Components;
+using Core.Models.User;
 using Solnet.Rpc;
 
-namespace SolBridge.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class UserDataController : IDisposable
 {

@@ -1,7 +1,7 @@
+using Core.Models.User;
 using Newtonsoft.Json;
-using SolBridge.Models.User;
 
-namespace SolBridge.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class DataController
 {

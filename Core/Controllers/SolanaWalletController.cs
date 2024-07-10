@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SolBridge.Data_Controllers;
+﻿using Core.Data_Controllers;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SolBridge.Controllers;
+namespace Core.Controllers;
 
 [ApiController, Route("api/solana-wallet")]
 public class SolanaWalletController : ControllerBase

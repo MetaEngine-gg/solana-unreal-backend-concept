@@ -5,7 +5,7 @@ using Solnet.Rpc.Models;
 using Solnet.Serum;
 using Solnet.Serum.Models;
 
-namespace SolBridge.Data_Controllers;
+namespace Core.Data_Controllers;
 
 public class SolnetSerumDataController
 {

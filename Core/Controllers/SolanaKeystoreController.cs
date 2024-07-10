@@ -1,8 +1,8 @@
+using Core.Data_Controllers;
+using Core.Models.KeyStore;
 using Microsoft.AspNetCore.Mvc;
-using SolBridge.Data_Controllers;
-using SolBridge.Models.KeyStore;
 
-namespace SolBridge.Controllers;
+namespace Core.Controllers;
 
 [ApiController, Route("api/solana-keystore")]
 public class SolanaKeystoreController : ControllerBase

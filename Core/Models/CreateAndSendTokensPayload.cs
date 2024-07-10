@@ -1,4 +1,4 @@
-namespace SolBridge.Models;
+namespace Core.Models;
 
 [Serializable]
 public struct CreateAndSendTokensPayload

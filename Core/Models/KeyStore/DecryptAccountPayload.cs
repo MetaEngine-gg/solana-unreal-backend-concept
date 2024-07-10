@@ -1,4 +1,4 @@
-namespace SolBridge.Models.KeyStore;
+namespace Core.Models.KeyStore;
 
 [Serializable]
 public struct DecryptAccountPayload

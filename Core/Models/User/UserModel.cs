@@ -1,6 +1,6 @@
 ﻿using Solnet.Wallet;
 
-namespace SolBridge.Models.User;
+namespace Core.Models.User;
 
 [Serializable]
 public class UserModel
